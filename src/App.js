@@ -59,10 +59,11 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <h1 className="site--title">tomorrow</h1>
+        <AddToDoForm addToDo={this.addToDo} updateNewToDo={this.updateNewToDo} />
         <ul className="todos">
           {this.state.todos.map((item) => <ToDo key={item.id} {...item} completeToDo={this.completeToDo} deleteToDo={this.deleteToDo} />)}
         </ul>
-        <AddToDoForm addToDo={this.addToDo} updateNewToDo={this.updateNewToDo} />
       </div>
     );
   }
