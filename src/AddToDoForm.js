@@ -1,14 +1,14 @@
 import React from 'react';
 
 class AddToDoForm extends React.Component {
-    render() { 
-        return (  
+    render() {
+        return (
             <form onSubmit={this.props.addToDo}>
-                <label>Task name:<br/><input name="title" type="text" onChange={this.props.updateNewToDo}/></label>
+                <label><span>Task name: </span><input name="title" type="text" onChange={this.props.updateNewToDo} /></label>
                 <button type="submit">Create task</button>
             </form>
         );
     }
 }
- 
+
 export default AddToDoForm;

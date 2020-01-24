@@ -7,7 +7,7 @@ import shortid from 'shortid';
 const todos = [];
 
 export default class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -17,48 +17,52 @@ export default class App extends React.Component {
 
     this.addToDo = this.addToDo.bind(this);
     this.updateNewToDo = this.updateNewToDo.bind(this);
-    this.dismissToDo = this.dismissToDo.bind(this);
+    this.completeToDo = this.completeToDo.bind(this);
+    this.deleteToDo = this.deleteToDo.bind(this);
   }
 
   updateNewToDo = (event) => {
     this.setState({
-      newToDo: {id:shortid.generate(), title:event.target.value.trim(), completed:false}
+      newToDo: { id: shortid.generate(), title: event.target.value.trim(), completed: false }
     })
   }
-  
+
   addToDo = (event) => {
     event.preventDefault();
     if (this.state.newToDo !== null && this.state.newToDo.title.trim() !== '') {
       let updatedToDos = this.state.todos;
       updatedToDos.push(this.state.newToDo);
-      this.setState({newToDo:null, todos: updatedToDos});
+      this.setState({ newToDo: null, todos: updatedToDos });
       event.target.reset();
     }
   }
-  
-  dismissToDo = (id) => {
+
+  completeToDo = (id) => {
     // console.log(id);
 
-    /* v.0.1 deletes/filters out completed todos */
-    //let updatedToDos = this.state.todos.filter(todo => id !== todo.id); 
-
-    /* v.0.2 toggles todo status */
+    /* toggles todo status */
     let updatedToDos = this.state.todos.map(todo => {
       if (id === todo.id) {
         todo.completed = !todo.completed;
       }
       return todo;
     })
-    this.setState({newToDo:null, todos: updatedToDos});
+    this.setState({ newToDo: null, todos: updatedToDos });
+  }
+
+  deleteToDo = (id) => {
+    /* delete/filter out completed todos */
+    let updatedToDos = this.state.todos.filter(todo => id !== todo.id);
+    this.setState({ newToDo: null, todos: updatedToDos });
   }
 
   render() {
     return (
       <div className="App">
-        <ul>
-          {this.state.todos.map((item) => <ToDo key={item.id} {...item} dismissToDo={this.dismissToDo}/>)}
+        <ul className="todos">
+          {this.state.todos.map((item) => <ToDo key={item.id} {...item} completeToDo={this.completeToDo} deleteToDo={this.deleteToDo} />)}
         </ul>
-        <AddToDoForm addToDo={this.addToDo} updateNewToDo={this.updateNewToDo}/>
+        <AddToDoForm addToDo={this.addToDo} updateNewToDo={this.updateNewToDo} />
       </div>
     );
   }
