@@ -164,7 +164,7 @@ Inter variable font. Usage:
   /* justify-content: center; */
   height: 100vh;
   margin: auto;
-  max-width: 60rem;
+  max-width: 90rem;
   padding: 2rem;
 }
 
@@ -177,6 +177,12 @@ h1.site--title {
   margin-bottom: 1rem;
 }
 
+h1.site--title sup {
+  vertical-align: top;
+  font-size: 2rem;
+  opacity: 0.35;
+}
+
 span.site--tagline {
   font-size: 0.9rem;
   text-align: center;
@@ -185,7 +191,7 @@ span.site--tagline {
 }
 
 body {
-  background-color: whitesmoke;
+  background-color: #f5efe0;
   font-family: "Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue",
     Helvetica, sans-serif;
 }
@@ -211,7 +217,7 @@ input[type="text"] {
   font-size: 2rem;
   color: #000;
   padding: 0.5rem 1rem;
-  border-radius: 5px;
+  border-radius: 4px;
   box-shadow: 0 3px 6px #b3b2b294;
 }
 
@@ -220,28 +226,44 @@ input::placeholder {
 }
 
 .todos {
+  display: flex;
   flex: 1;
 }
 
-.todos.empty {
-  border: 2px dashed #cecece;
-  border-radius: 10px;
-}
-
 .todos li {
+  align-items: flex-start;
   background-color: #ffffff;
-  font-size: 1.4rem;
-  margin-bottom: 2px;
+  border-radius: 4px;
+  display: flex;
+  font-size: 1.3rem;
+  line-height: 1.1;
+  margin-bottom: 4px;
   padding: 1rem;
   position: relative;
 }
 
 .todos ul {
-  margin-bottom: 2rem;
+  flex: 50%;
+}
+
+.todos ul.empty {
+  border: 2px dashed #cecece;
+  border-radius: 10px;
+}
+
+.todos ul.incomplete {
+  margin-right: 1rem;
+}
+
+.todos ul.complete {
+  margin-left: 1rem;
 }
 
 .todos ul li label {
+  align-items: flex-start;
   cursor: pointer;
+  display: flex;
+  flex: 1;
 }
 
 .todos ul.complete li label {
@@ -255,7 +277,7 @@ input::placeholder {
 
 button.delete {
   cursor: pointer;
-  position: absolute;
+  /* position: absolute; */
   right: 1rem;
   border: none;
   background: crimson;
@@ -266,6 +288,6 @@ button.delete {
   padding: 0.3rem 0.8rem;
   border-radius: 3px;
   letter-spacing: 1.5px;
-  top: 50%;
-  transform: translateY(-50%);
+  /* top: 50%;
+  transform: translateY(-50%); */
 }

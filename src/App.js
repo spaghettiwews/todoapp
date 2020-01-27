@@ -3,8 +3,10 @@ import "./App.css";
 import ToDo from "./ToDo";
 import AddToDoForm from "./AddToDoForm";
 import shortid from "shortid";
+import "./helpers";
+import { saveToLocal, getFromLocal } from "./helpers";
 
-const todos = [];
+const todos = getFromLocal("todos") !== null ? getFromLocal("todos") : [];
 
 export default class App extends React.Component {
   constructor(props) {
@@ -37,6 +39,7 @@ export default class App extends React.Component {
       let updatedToDos = this.state.todos;
       updatedToDos.push(this.state.newToDo);
       this.setState({ newToDo: null, todos: updatedToDos });
+      saveToLocal("todos", updatedToDos);
       event.target.reset();
     }
   };
@@ -50,18 +53,23 @@ export default class App extends React.Component {
       return todo;
     });
     this.setState({ newToDo: null, todos: updatedToDos });
+    saveToLocal("todos", updatedToDos);
   };
 
   /* delete/filter out todos */
   deleteToDo = id => {
     let updatedToDos = this.state.todos.filter(todo => id !== todo.id);
     this.setState({ newToDo: null, todos: updatedToDos });
+    saveToLocal("todos", updatedToDos);
   };
 
   render() {
+    const incompleteToDos = this.state.todos.filter(item => item.completed === false);
+    const completeToDos = this.state.todos.filter(item => item.completed === true);
+
     return (
       <div className="App">
-        <h1 className="site--title">tomorrow</h1>
+        <h1 className="site--title">tomorrow <sup>{completeToDos.length}/{this.state.todos.length}</sup></h1>
         <span className="site--tagline">
           a mystical land where 99% of all human productivity, motivation and
           achievement is stored.
@@ -73,32 +81,28 @@ export default class App extends React.Component {
         <div
           className={`todos${this.state.todos.length === 0 ? " empty" : ""}`}
         >
-          <ul className="incomplete">
-            {this.state.todos.map(item => {
-              if (!item.completed) {
-                return (
-                  <ToDo
-                    key={item.id}
-                    {...item}
-                    completeToDo={this.completeToDo}
-                    deleteToDo={this.deleteToDo}
-                  />
-                );
-              }
+          <ul className={`incomplete${incompleteToDos.length === 0 ? " empty" : ""}`}>
+            {incompleteToDos.map(item => {
+              return (
+                <ToDo
+                  key={item.id}
+                  {...item}
+                  completeToDo={this.completeToDo}
+                  deleteToDo={this.deleteToDo}
+                />
+              );
             })}
           </ul>
-          <ul className="complete">
-            {this.state.todos.map(item => {
-              if (item.completed) {
-                return (
-                  <ToDo
-                    key={item.id}
-                    {...item}
-                    completeToDo={this.completeToDo}
-                    deleteToDo={this.deleteToDo}
-                  />
-                );
-              }
+          <ul className={`complete${completeToDos.length === 0 ? " empty" : ""}`}>
+            {completeToDos.map(item => {
+              return (
+                <ToDo
+                  key={item.id}
+                  {...item}
+                  completeToDo={this.completeToDo}
+                  deleteToDo={this.deleteToDo}
+                />
+              );
             })}
           </ul>
         </div>

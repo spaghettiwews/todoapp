@@ -13,8 +13,7 @@ class ToDo extends React.Component {
             }}
             checked={this.props.completed}
           />
-
-          {this.props.title}
+          <span>{this.props.title}</span>
         </label>
         <button
           className="delete"
